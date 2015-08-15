@@ -21,7 +21,7 @@ import com.olojiang.reducer.WordCountReducer;
 public class WordCountWithCombiner {
 	public static void main(String[] args) {
 		if(args.length != 2) {
-			System.err.println("Missing Parameter: WordCount inputDir outputDir");
+			System.err.println("Missing Parameter: WordCountWithCombiner inputDir outputDir");
 			System.exit(2);
 		}
 		
