@@ -30,6 +30,7 @@ public class WordCount {
 		
 		// Configuration
 		Configuration conf = new Configuration(true);
+		conf.set("testParameter", "testValue");
 		
 		// Create Job
 		try {
