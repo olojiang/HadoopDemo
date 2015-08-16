@@ -5,10 +5,8 @@ import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Counter;
-import org.apache.hadoop.mapreduce.Counters;
 // mapreduce package is new in version 2.x with YARN
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -16,15 +14,13 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-import com.olojiang.counter.MyCounter;
-import com.olojiang.mapper.WordCountMapper;
-import com.olojiang.reducer.WordCountReducer;
-import com.olojiang.util.P;
+import com.olojiang.mapper.AvgMapper;
+import com.olojiang.reducer.AvgReducer;
 
-public class WordCount {
+public class Avg {
 	public static void main(String[] args) {
 		if(args.length != 2) {
-			System.err.println("Missing Parameter: WordCount inputDir outputDir");
+			System.err.println("Missing Parameter: Avg inputDir outputDir");
 			System.exit(2);
 		}
 		
@@ -33,26 +29,25 @@ public class WordCount {
 		
 		// Configuration
 		Configuration conf = new Configuration(true);
-		conf.set("testParameter", "testValue");
 		
 		// Create Job
 		try {
-			Job job = Job.getInstance(conf, "Word Count");
+			Job job = Job.getInstance(conf, "Avg Score for Student");
 			
 			// Setup Mapper, Reducer Class
-			job.setMapperClass(WordCountMapper.class);
-			job.setReducerClass(WordCountReducer.class);
+			job.setMapperClass(AvgMapper.class);
+			job.setReducerClass(AvgReducer.class);
 			
 			// Number of Reduce Task
 			job.setNumReduceTasks(1);
 			
 			// Set Mapper output, Key, Value Class
 			job.setMapOutputKeyClass(Text.class);
-			job.setMapOutputValueClass(IntWritable.class);
+			job.setMapOutputValueClass(FloatWritable.class);
 			
 			// Specify Key, Value Class
 			job.setOutputKeyClass(Text.class);
-			job.setOutputValueClass(IntWritable.class);
+			job.setOutputValueClass(FloatWritable.class);
 			
 			// Input
 			FileInputFormat.addInputPath( job, inputPath);
@@ -71,14 +66,6 @@ public class WordCount {
 			// Execute job
 			int code = job.waitForCompletion(true)? 0 : 1;
 			System.out.printf("code=%s\n", code);
-			
-			// Counter
-			Counters counters = job.getCounters();
-			Counter mapC = counters.findCounter(MyCounter.MAP_RECORD_COUNTER);
-			Counter reduceC = counters.findCounter(MyCounter.REDUCE_RECORD_COUNTER);
-			P.p("MapCounter", mapC.getValue());
-			P.p("ReduceCounter", reduceC.getValue());
-			
 			System.exit(code);
 		} catch (IOException e) {
 			e.printStackTrace();

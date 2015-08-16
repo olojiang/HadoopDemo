@@ -8,6 +8,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
+import com.olojiang.counter.MyCounter;
+
 public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
 	private final IntWritable ONE = new IntWritable(1);
 	private Text word = new Text();
@@ -25,6 +27,9 @@ public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
 			testParameter = config.get("testParameter");
 			System.out.println("Mapper, testParameter=" + testParameter);
 		}
+		
+		// Increase Map Counter
+		context.getCounter(MyCounter.MAP_RECORD_COUNTER).increment(1);
 		
 		// Default Input is just one line string
 		String line = value.toString();

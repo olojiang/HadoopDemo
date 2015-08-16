@@ -7,6 +7,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
+import com.olojiang.counter.MyCounter;
+
 public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 	static private String testParameter = null;
@@ -22,6 +24,9 @@ public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritab
 			testParameter = config.get("testParameter");
 			System.out.println("Reducer, testParameter=" + testParameter);
 		}
+		
+		// Increase Reduce Counter
+		context.getCounter(MyCounter.REDUCE_RECORD_COUNTER).increment(1);
 		
 		System.out.println("Reducer, Get Key: " + text);
 		
