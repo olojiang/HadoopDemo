@@ -1,0 +1,8 @@
+id,name,institute,grade
+01,Ji Wei,1,75.2
+02,Yun Jia Li,2,97.2
+03,Chen Xu Chun,2,65.2
+04,Wu Shao Yun,3,60.2
+05,Zhang Wen Qian,1,67.2
+06,Liu Yu Xi,1,35
+07,Meng Hao Ran,2,22

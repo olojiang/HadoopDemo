@@ -37,4 +37,12 @@
 	</dependency>
 	
   </dependencies>
+  
+  <repositories>
+    <repository>
+      <id>my-maven</id>
+      <name>your custom repo</name>
+      <url>http://repo1.maven.org/</url>
+    </repository>
+  </repositories>
 </project>
